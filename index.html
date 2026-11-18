@@ -737,7 +737,9 @@ document.getElementById('feed').addEventListener('input', e => {
 const GH_FILE = 'data.json';
 const ghTok = () => { try{ return localStorage.getItem('kc:ghtoken') || ''; }catch(e){ return ''; } };
 const ghRepo = () => { try{ return localStorage.getItem('kc:ghrepo') || ''; }catch(e){ return ''; } };
-try{ if (ghTok() && localStorage.getItem('kc:ghrepo') == null) localStorage.setItem('kc:ghrepo', 'bambusaceae/meiji-data'); }catch(e){}   // devices set up before the repository field existed
+// GitHub username changed: bambusaceae → zzbamgit
+try{ const r = localStorage.getItem('kc:ghrepo'); if (r && r.startsWith('bambusaceae/')) localStorage.setItem('kc:ghrepo', r.replace(/^bambusaceae\//, 'zzbamgit/')); }catch(e){}
+try{ if (ghTok() && localStorage.getItem('kc:ghrepo') == null) localStorage.setItem('kc:ghrepo', 'zzbamgit/meiji-data'); }catch(e){}   // devices set up before the repository field existed
 const sOn = () => !!(ghTok() && ghRepo());
 const b64enc = s => { const b = new TextEncoder().encode(s); let bin = ''; for (let i = 0; i < b.length; i += 0x8000) bin += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000)); return btoa(bin); };
 const b64dec = s => { const bin = atob(s.replace(/\s/g, '')); return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))); };
